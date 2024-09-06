@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
 
+
 namespace WordService;
 
 public class Database
@@ -38,6 +39,11 @@ public class Database
         }
     }
 
+    public async Task DeleteDatabaseAsync()
+    {
+        await Task.Run(() => DeleteDatabase());
+    }
+
     public void RecreateDatabase()
     {
         Execute(coordinator.GetDocumentConnection(), "CREATE TABLE Documents(id INTEGER PRIMARY KEY, url VARCHAR(500))");
@@ -47,6 +53,11 @@ public class Database
         {
             Execute(connection, "CREATE TABLE Words(id INTEGER PRIMARY KEY, name VARCHAR(500))");
         }
+    }
+
+    public async Task RecreateDatabaseAsync()
+    {
+        await Task.Run(() => RecreateDatabase());
     }
 
     // key is the id of the document, the value is number of search words in the document
